@@ -27,6 +27,7 @@
 - [#9208](https://github.com/influxdata/influxdb/pull/9208): Updated client 4xx error message when response body length is zero.
 - [#9230](https://github.com/influxdata/influxdb/pull/9230): Remove extraneous newlines from the log.
 - [#9226](https://github.com/influxdata/influxdb/issues/9226): Allow lone boolean literals in a condition expression.
+- [#9216](https://github.com/influxdata/influxdb/issues/9216): Prevent a panic when a query simultaneously finishes and is killed at the same time.
 
 ## v1.4.3 [unreleased]
 
