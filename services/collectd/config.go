@@ -51,6 +51,9 @@ const (
 
 	// DefaultParseMultiValuePlugin is "split", defaulting to version <1.2 where plugin values were split into separate rows
 	DefaultParseMultiValuePlugin = "split"
+
+	// Align incoming timestamp to the specified duration
+	DefaultForceAlignTimestamp = -1
 )
 
 // Config represents a configuration for the collectd service.
@@ -67,6 +70,7 @@ type Config struct {
 	SecurityLevel         string        `toml:"security-level"`
 	AuthFile              string        `toml:"auth-file"`
 	ParseMultiValuePlugin string        `toml:"parse-multivalue-plugin"`
+	ForceAlignTimestamp   int           `toml:"force-timestamp-alignment"`
 }
 
 // NewConfig returns a new instance of Config with defaults.
@@ -83,6 +87,7 @@ func NewConfig() Config {
 		SecurityLevel:         DefaultSecurityLevel,
 		AuthFile:              DefaultAuthFile,
 		ParseMultiValuePlugin: DefaultParseMultiValuePlugin,
+		ForceAlignTimestamp:   DefaultForceAlignTimestamp,
 	}
 }
 
@@ -122,6 +127,10 @@ func (c *Config) WithDefaults() *Config {
 	}
 	if d.ParseMultiValuePlugin == "" {
 		d.ParseMultiValuePlugin = DefaultParseMultiValuePlugin
+	}
+
+	if d.ForceAlignTimestamp == 0 {
+		d.ForceAlignTimestamp = DefaultForceAlignTimestamp
 	}
 
 	return &d

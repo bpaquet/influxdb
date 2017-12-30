@@ -407,6 +407,9 @@ func (s *Service) writePoints() {
 // (df, {["used",1000],["free",2500]}).
 func (s *Service) UnmarshalValueListPacked(vl *api.ValueList) []models.Point {
 	timestamp := vl.Time.UTC()
+	if s.Config.ForceAlignTimestamp > 0 {
+		timestamp = timestamp.Truncate(time.Duration(s.Config.ForceAlignTimestamp) * time.Second)
+	}
 
 	var name = vl.Identifier.Plugin
 	tags := make(map[string]string, 4)
@@ -450,6 +453,9 @@ func (s *Service) UnmarshalValueListPacked(vl *api.ValueList) []models.Point {
 // UnmarshalValueList translates a ValueList into InfluxDB data points.
 func (s *Service) UnmarshalValueList(vl *api.ValueList) []models.Point {
 	timestamp := vl.Time.UTC()
+	if s.Config.ForceAlignTimestamp > 0 {
+		timestamp = timestamp.Truncate(time.Duration(s.Config.ForceAlignTimestamp) * time.Second)
+	}
 
 	var points []models.Point
 	for i := range vl.Values {
